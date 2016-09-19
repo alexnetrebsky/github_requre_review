@@ -1,3 +1,5 @@
+require 'github_event_handler/github_event_handler'
+
 class GithubEventsController < ApplicationController
   skip_before_filter :verify_authenticity_token, only: [:create]
 
@@ -8,6 +10,12 @@ class GithubEventsController < ApplicationController
   def create
     payload = JSON.parse(request.body.read)
     GithubEvent.create({payload: payload})
-    render plain: 'OK'
+    handler = GithubEventHandler.new
+    handled = handler.perform(request)
+    render plain: handled ? 'Handled' : 'Not handled'
+  end
+
+  def set_status
+    client = Octokit::Client.new access_token:''
   end
 end

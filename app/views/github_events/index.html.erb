@@ -9,8 +9,10 @@
   </thead>
   <tbody>
   <% @items.each do |item| %>
+  <tr>
       <td><%= item.payload %></td>
       <td><%= item.created_at %></td>
+  </tr>
   <% end %>
   </tbody>
 </table>
