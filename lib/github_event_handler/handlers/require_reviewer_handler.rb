@@ -20,7 +20,8 @@ class RequireReviewerHandler < BaseHandler
     number_approves = comments.select { |comment| comment[:body.to_s].unpack('U*').include?(THUMBS_UP_SIGN_CODE) }.count
 
     new_state = number_approves > 0 ? 'success' : 'failure'
+    description = 'one review required' if number_approves <= 0
 
-    client.create_status repository_full_name, sha_of_last_commit, new_state, context: 'review'
+    client.create_status repository_full_name, sha_of_last_commit, new_state, context: 'review', description: description
   end
 end
