@@ -194,6 +194,7 @@ DEPENDENCIES
   pg (~> 0.18)
   puma (~> 3.0)
   rails (>= 5.0.0.rc1, < 5.1)
+  rspec-mocks
   rspec-rails
   sass-rails (~> 5.0)
   spring
