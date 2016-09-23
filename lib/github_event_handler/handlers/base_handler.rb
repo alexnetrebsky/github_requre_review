@@ -1,5 +1,6 @@
 class BaseHandler
   class_attribute :events
+  self.events = :no_events #should be Array
 
   class << self
     def handle(event)

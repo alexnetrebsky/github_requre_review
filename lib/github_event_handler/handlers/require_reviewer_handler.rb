@@ -10,7 +10,7 @@ class RequireReviewerHandler < BaseHandler
     pull_request_number = event.pull_request_number
     repository_full_name = event.repository_full_name
 
-    client = Octokit::Client.new access_token:''
+    client = Octokit::Client.new access_token: ENV['GITHUB_ACCESS_TOKEN']
 
     last_commit = (client.pull_request_commits repository_full_name, pull_request_number).last
     sha_of_last_commit = last_commit.fetch(:sha.to_s)

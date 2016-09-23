@@ -16,7 +16,8 @@ class IssueCommentHandler
     repository = payload[:repository.to_s]
     repository_full_name = repository[:full_name.to_s]
 
-    client = Octokit::Client.new access_token:''
+    puts "GITHUB_ACCESS_TOKEN: #{ENV['GITHUB_ACCESS_TOKEN']}"
+    client = Octokit::Client.new access_token: ENV['GITHUB_ACCESS_TOKEN']
 
     last_commit = (client.pull_request_commits repository_full_name, pull_request_number).last
     sha_of_last_commit = last_commit[:sha.to_s]

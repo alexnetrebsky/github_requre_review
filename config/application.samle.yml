@@ -1,0 +1,3 @@
+# Add configuration values here, as shown below.
+development:
+  GITHUB_ACCESS_TOKEN: # Generate and take a token here: https://github.com/settings/tokens
