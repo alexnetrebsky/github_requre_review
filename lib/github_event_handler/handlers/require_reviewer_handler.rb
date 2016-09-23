@@ -1,3 +1,4 @@
+require 'github/github_client'
 require 'github_event_handler/events/issue_comment_event'
 require 'github_event_handler/handlers/base_handler'
 
@@ -10,7 +11,7 @@ class RequireReviewerHandler < BaseHandler
     pull_request_number = event.pull_request_number
     repository_full_name = event.repository_full_name
 
-    client = Octokit::Client.new access_token: ENV['GITHUB_ACCESS_TOKEN']
+    client = GithubClient.new
 
     last_commit = (client.pull_request_commits repository_full_name, pull_request_number).last
     sha_of_last_commit = last_commit.fetch(:sha.to_s)
