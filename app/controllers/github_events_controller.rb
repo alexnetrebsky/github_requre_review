@@ -11,7 +11,7 @@ class GithubEventsController < ApplicationController
     payload = JSON.parse(request.body.read)
     GithubEvent.create({payload: payload})
     handler = GithubEventHandler.new
-    handled = handler.perform(request)
+    handled = handler.handle(request)
     render plain: handled ? 'Handled' : 'Not handled'
   end
 
