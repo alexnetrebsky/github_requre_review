@@ -1,9 +1,8 @@
-require 'github_event_handler/handlers/require_reviewer_handler'
-
+require 'github_event_handler/handlers/pull_request_status_handler'
 
 class GithubEventHandler
   def initialize
-    @handlers = [RequireReviewerHandler]
+    @handlers = [PullRequestStatusHandler]
   end
 
   def handle (request)
