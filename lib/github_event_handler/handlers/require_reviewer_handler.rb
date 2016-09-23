@@ -14,11 +14,10 @@ class RequireReviewerHandler < BaseHandler
     client = GithubClient.new
 
     last_commit = (client.pull_request_commits repository_full_name, pull_request_number).last
-    sha_of_last_commit = last_commit.fetch(:sha.to_s)
-
+    sha_of_last_commit = last_commit[:sha.to_s]
     comments = client.issue_comments repository_full_name, pull_request_number
 
-    number_approves = comments.select{|comment| comment[:body.to_s].unpack('U*').include?(THUMBS_UP_SIGN_CODE)}.count
+    number_approves = comments.select { |comment| comment[:body.to_s].unpack('U*').include?(THUMBS_UP_SIGN_CODE) }.count
 
     new_state = number_approves > 0 ? 'success' : 'failure'
 

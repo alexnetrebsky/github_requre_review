@@ -8,7 +8,6 @@ describe GithubEventHandler do
 
   it 'invokes handling' do
     event = class_spy('IssueCommentEvent')
-    allow(RequireReviewerHandler).to receive(:events).and_return([event])
     allow(BaseHandler).to receive(:handle)
 
     request = instance_double('Require',
