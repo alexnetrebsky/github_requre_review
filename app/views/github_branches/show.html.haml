@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @github_branch.name
+%p
+  %b Github repository:
+  = @github_branch.github_repository
+
+= link_to 'Edit', edit_github_branch_path(@github_branch)
+\|
+= link_to 'Back', github_branches_path

@@ -18,6 +18,8 @@ class PullRequestStatusHandler < BaseHandler
     client = GithubClient.new
     pull_request = event.respond_to?(:pull_request) ? event.pull_request : get_pull_request(repository_full_name, event.pull_request_number, client)
     pull_request_head_sha = pull_request['head']['sha']
+    pull_request_number = pull_request['number']
+    branch_name = pull_request['head']['ref']
 
     error_message = nil
     @testers.find do |tester|
@@ -27,10 +29,21 @@ class PullRequestStatusHandler < BaseHandler
 
     new_state = error_message ? :failure : :success
 
+    save_result(new_state, repository_full_name, branch_name, pull_request_number)
     client.create_status repository_full_name, pull_request_head_sha, new_state, context: 'review', description: error_message
   end
 
   private
+
+  def save_result(status, repository_full_name, branch_name, pull_request_number)
+    github_repository = GithubRepository.find_or_create_by(full_name: repository_full_name)
+    github_branch = GithubBranch.find_or_create_by(github_repository_id: github_repository.id, name: branch_name)
+    TestResult.create({
+                          github_branch: github_branch,
+                          status: status,
+                          gihub_pull_request: pull_request_number
+                      })
+  end
 
   def get_pull_request(repository_full_name, pull_request_number, client)
     client.pull_request repository_full_name, pull_request_number

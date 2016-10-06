@@ -1,0 +1,19 @@
+= form_for @test_result do |f|
+  - if @test_result.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@test_result.errors.count, "error")} prohibited this test_result from being saved:"
+      %ul
+        - @test_result.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :status
+    = f.text_field :status
+  .field
+    = f.label :github_branch
+    = f.text_field :github_branch
+  .field
+    = f.label :gihub_pull_request
+    = f.number_field :gihub_pull_request
+  .actions
+    = f.submit 'Save'

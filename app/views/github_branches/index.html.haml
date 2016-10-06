@@ -1,0 +1,23 @@
+%h1 Listing github_branches
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Github repository
+      %th
+      %th
+      %th
+
+  %tbody
+    - @github_branches.each do |github_branch|
+      %tr
+        %td= github_branch.name
+        %td= github_branch.github_repository
+        %td= link_to 'Show', github_branch
+        %td= link_to 'Edit', edit_github_branch_path(github_branch)
+        %td= link_to 'Destroy', github_branch, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Github branch', new_github_branch_path

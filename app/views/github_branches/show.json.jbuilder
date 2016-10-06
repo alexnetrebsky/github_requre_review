@@ -1,0 +1,1 @@
+json.partial! "github_branches/github_branch", github_branch: @github_branch

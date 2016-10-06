@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Status:
+  = @test_result.status
+%p
+  %b Github branch:
+  = @test_result.github_branch
+%p
+  %b Gihub pull request:
+  = @test_result.gihub_pull_request
+
+= link_to 'Edit', edit_test_result_path(@test_result)
+\|
+= link_to 'Back', test_results_path

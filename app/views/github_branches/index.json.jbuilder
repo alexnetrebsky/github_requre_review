@@ -1,0 +1,1 @@
+json.array! @github_branches, partial: 'github_branches/github_branch', as: :github_branch

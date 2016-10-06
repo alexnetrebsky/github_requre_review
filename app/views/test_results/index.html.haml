@@ -1,0 +1,27 @@
+%h1 Listing test_results
+
+%table
+  %thead
+    %tr
+      %th Status
+      %th Github branch
+      %th Gihub pull request
+      %th Created At
+      %th
+      %th
+      %th
+
+  %tbody
+    - @test_results.each do |test_result|
+      %tr
+        %td= test_result.status
+        %td= test_result.github_branch
+        %td= test_result.gihub_pull_request
+        %td= test_result.created_at
+        %td= link_to 'Show', test_result
+        %td= link_to 'Edit', edit_test_result_path(test_result)
+        %td= link_to 'Destroy', test_result, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Test result', new_test_result_path

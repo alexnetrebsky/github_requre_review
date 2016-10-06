@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916105634) do
+ActiveRecord::Schema.define(version: 20161006184110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "github_branches", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "github_repository_id"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
 
   create_table "github_events", force: :cascade do |t|
     t.string   "payload"
@@ -21,4 +28,20 @@ ActiveRecord::Schema.define(version: 20160916105634) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "github_repositories", force: :cascade do |t|
+    t.string   "full_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "test_results", force: :cascade do |t|
+    t.string   "status"
+    t.integer  "github_branch_id"
+    t.integer  "gihub_pull_request"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_foreign_key "github_branches", "github_repositories"
+  add_foreign_key "test_results", "github_branches"
 end
