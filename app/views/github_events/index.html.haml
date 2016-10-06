@@ -1,0 +1,13 @@
+%h2 Github events
+- if @items.count > 0
+  %table
+    %thead
+      %th Payload
+      %th Created at
+    %tbody
+      - @items.each do |item|
+        %tr
+          %td= item.payload
+          %td= item.created_at
+- else
+  No events
