@@ -1,0 +1,27 @@
+%h1 Listing test_result_items
+
+%table
+  %thead
+    %tr
+      %th Status
+      %th Test result
+      %th Key
+      %th Description
+      %th
+      %th
+      %th
+
+  %tbody
+    - @test_result_items.each do |test_result_item|
+      %tr
+        %td= test_result_item.status
+        %td= test_result_item.test_result_id
+        %td= test_result_item.key
+        %td= test_result_item.description
+        %td= link_to 'Show', test_result_item
+        %td= link_to 'Edit', edit_test_result_item_path(test_result_item)
+        %td= link_to 'Destroy', test_result_item, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Test result item', new_test_result_item_path

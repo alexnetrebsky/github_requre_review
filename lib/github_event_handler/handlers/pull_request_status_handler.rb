@@ -21,28 +21,40 @@ class PullRequestStatusHandler < BaseHandler
     pull_request_number = pull_request['number']
     branch_name = pull_request['head']['ref']
 
-    error_message = nil
-    @testers.find do |tester|
+    test_results = {}
+    @testers.each do |tester|
       error_message = tester.test(pull_request, client)
-      error_message
+      test_key = tester.class.name
+      test_results[test_key] = error_message
     end
 
-    new_state = error_message ? :failure : :success
+    error_result = test_results.find { |key, error_message| error_message.present? }
+    new_state = error_result.present? ? :failure : :success
 
-    save_result(new_state, repository_full_name, branch_name, pull_request_number)
+    error_message = Array(error_result)[1]
+    save_result(new_state, test_results, repository_full_name, branch_name, pull_request_number)
     client.create_status repository_full_name, pull_request_head_sha, new_state, context: 'review', description: error_message
   end
 
   private
 
-  def save_result(status, repository_full_name, branch_name, pull_request_number)
+  def save_result(status, test_result_items, repository_full_name, branch_name, pull_request_number)
     github_repository = GithubRepository.find_or_create_by(full_name: repository_full_name)
     github_branch = GithubBranch.find_or_create_by(github_repository_id: github_repository.id, name: branch_name)
-    TestResult.create({
-                          github_branch: github_branch,
-                          status: status,
-                          gihub_pull_request: pull_request_number
-                      })
+    test_result = TestResult.create({
+                                        github_branch: github_branch,
+                                        status: status,
+                                        gihub_pull_request: pull_request_number
+                                    })
+    test_result_items.each do |key, error_message|
+      TestResultItem.create({
+                            test_result: test_result,
+                            key: key,
+                            description: error_message,
+                            status: error_message.present? ? :failure : :success
+                        })
+    end
+
   end
 
   def get_pull_request(repository_full_name, pull_request_number, client)

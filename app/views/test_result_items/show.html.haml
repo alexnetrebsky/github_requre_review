@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Status:
+  = @test_result_item.status
+%p
+  %b Test result:
+  = @test_result_item.test_result_id
+
+= link_to 'Edit', edit_test_result_item_path(@test_result_item)
+\|
+= link_to 'Back', test_result_items_path
