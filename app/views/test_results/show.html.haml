@@ -10,6 +10,12 @@
   %b Gihub pull request:
   = @test_result.gihub_pull_request
 
+%ul
+  - @test_result.test_result_items.each do |result_item|
+    %li
+      = "#{result_item.key} - #{result_item.status} - #{result_item.description}"
+
+
 = link_to 'Edit', edit_test_result_path(@test_result)
 \|
 = link_to 'Back', test_results_path

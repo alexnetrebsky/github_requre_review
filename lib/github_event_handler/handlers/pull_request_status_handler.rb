@@ -4,6 +4,7 @@ require 'github_event_handler/handlers/pull_request_testers/title_tester'
 require 'github_event_handler/events/pull_request_event'
 require 'github_event_handler/events/issue_comment_event'
 require 'github/github_client'
+require 'url_builder'
 
 class PullRequestStatusHandler < BaseHandler
   self.events = [PullRequestEvent, IssueCommentEvent]
@@ -32,8 +33,15 @@ class PullRequestStatusHandler < BaseHandler
     new_state = error_result.present? ? :failure : :success
 
     error_message = Array(error_result)[1]
-    save_result(new_state, test_results, repository_full_name, branch_name, pull_request_number)
-    client.create_status repository_full_name, pull_request_head_sha, new_state, context: 'review', description: error_message
+    test_result = save_result(new_state, test_results, repository_full_name, branch_name, pull_request_number)
+    url_builder = UrlBuilder.new
+
+    client.create_status repository_full_name,
+                         pull_request_head_sha,
+                         new_state,
+                         context: 'review',
+                         description: error_message,
+                         target_url: url_builder.test_result_url(test_result.id)
   end
 
   private
@@ -48,13 +56,13 @@ class PullRequestStatusHandler < BaseHandler
                                     })
     test_result_items.each do |key, error_message|
       TestResultItem.create({
-                            test_result: test_result,
-                            key: key,
-                            description: error_message,
-                            status: error_message.present? ? :failure : :success
-                        })
+                                test_result: test_result,
+                                key: key,
+                                description: error_message,
+                                status: error_message.present? ? :failure : :success
+                            })
     end
-
+    return test_result
   end
 
   def get_pull_request(repository_full_name, pull_request_number, client)
