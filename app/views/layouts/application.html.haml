@@ -7,8 +7,19 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track' => 'reload'
   %body
-    %ul
-      =link_to('Logout', destroy_user_session_path, :method => :delete)
+    .navbar.navbar-default.navbar-fixed-top
+      .container
+        .navbar-header
+          %a.navbar-brand(href="/") Github review
+        .navbar-collapse.collapse
+          %ul.nav.navbar-nav.navbar-right
+            %li
+              =link_to('Logout', destroy_user_session_path, :method => :delete)
+
+    .container
+      .page-header#banner
+        = yield(:header) if content_for?(:header)
+      = yield
       -#=render 'devise/menu/registration_items'
       -#=render 'devise/menu/login_items'
-    = yield
+
