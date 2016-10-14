@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :accounts
   resources :test_result_items
   resources :test_results
   resources :github_branches

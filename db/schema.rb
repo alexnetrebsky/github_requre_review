@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161006191417) do
+ActiveRecord::Schema.define(version: 20161014064450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "github_branches", force: :cascade do |t|
     t.string   "name"
@@ -32,6 +38,7 @@ ActiveRecord::Schema.define(version: 20161006191417) do
     t.string   "full_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "account_id", null: false
   end
 
   create_table "test_result_items", force: :cascade do |t|
@@ -52,6 +59,7 @@ ActiveRecord::Schema.define(version: 20161006191417) do
   end
 
   add_foreign_key "github_branches", "github_repositories"
+  add_foreign_key "github_repositories", "accounts"
   add_foreign_key "test_result_items", "test_results"
   add_foreign_key "test_results", "github_branches"
 end

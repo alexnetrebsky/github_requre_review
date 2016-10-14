@@ -47,7 +47,9 @@ class PullRequestStatusHandler < BaseHandler
   private
 
   def save_result(status, test_result_items, repository_full_name, branch_name, pull_request_number)
-    github_repository = GithubRepository.find_or_create_by(full_name: repository_full_name)
+    github_repository = GithubRepository.where(full_name: repository_full_name).first
+
+
     github_branch = GithubBranch.find_or_create_by(github_repository_id: github_repository.id, name: branch_name)
     test_result = TestResult.create({
                                         github_branch: github_branch,
