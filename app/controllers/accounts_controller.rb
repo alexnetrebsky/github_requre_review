@@ -1,5 +1,5 @@
 class AccountsController < ApplicationController
-  before_action :set_account, only: [:show, :edit, :update, :destroy]
+  before_action :set_account, only: [:show, :edit, :update, :destroy, :dashboard]
 
   # GET /accounts
   # GET /accounts.json
@@ -7,9 +7,14 @@ class AccountsController < ApplicationController
     @accounts = Account.all
   end
 
+  def dashboard
+
+  end
+
   # GET /accounts/1
   # GET /accounts/1.json
   def show
+
   end
 
   # GET /accounts/new

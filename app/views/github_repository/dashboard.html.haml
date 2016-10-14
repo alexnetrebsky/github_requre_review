@@ -1,0 +1,12 @@
+%h1 Repository #{@repository.full_name}
+
+%h3 Branches
+- if !@repository.github_branches.any?
+  .empty
+    No branches
+%ul
+  - @repository.github_branches.each do |branch|
+    %li(class="status_#{branch.status}")
+      %a(href="#{dashboard_github_branch_path(branch.id)}")=branch.name
+
+%a(href="#{dashboard_account_path(@repository.account.id)}") Back

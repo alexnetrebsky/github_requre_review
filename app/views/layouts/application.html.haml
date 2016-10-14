@@ -7,4 +7,8 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track' => 'reload'
   %body
+    %ul
+      =link_to('Logout', destroy_user_session_path, :method => :delete)
+      -#=render 'devise/menu/registration_items'
+      -#=render 'devise/menu/login_items'
     = yield

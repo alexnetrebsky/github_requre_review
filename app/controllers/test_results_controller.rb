@@ -1,5 +1,5 @@
 class TestResultsController < ApplicationController
-  before_action :set_test_result, only: [:show, :edit, :update, :destroy]
+  before_action :set_test_result, only: [:show, :edit, :update, :destroy, :dashboard]
 
   # GET /test_results
   # GET /test_results.json
@@ -10,6 +10,10 @@ class TestResultsController < ApplicationController
   # GET /test_results/1
   # GET /test_results/1.json
   def show
+  end
+
+  def dashboard
+
   end
 
   # GET /test_results/new

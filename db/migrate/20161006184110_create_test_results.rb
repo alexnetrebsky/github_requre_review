@@ -3,7 +3,7 @@ class CreateTestResults < ActiveRecord::Migration[5.0]
     create_table :test_results do |t|
       t.string :status
       t.integer :github_branch_id
-      t.integer :gihub_pull_request
+      t.integer :github_pull_request
 
       t.timestamps
     end

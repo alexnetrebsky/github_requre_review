@@ -1,0 +1,11 @@
+%h1 Branch #{@github_branch.name}
+%h3 Test results
+- if !@github_branch.test_results.any?
+  .empty
+    No results
+%ul
+  - @github_branch.test_results.each do |test_result|
+    %li(class="status_#{test_result.status}")
+      %a(href="#{dashboard_test_result_path(test_result.id)}")=test_result.created_at
+
+%a(href="#{dashboard_github_repository_path(@github_branch.github_repository.id)}") Back

@@ -1,0 +1,11 @@
+%h1 Branch #{@test_result.github_branch.name} #{@test_result.created_at}
+%h3 Test results
+- if !@test_result.test_result_items.any?
+  .empty
+    No items
+%ul
+  - @test_result.test_result_items.each do |test_result_item|
+    - if test_result_item.status.to_sym == :failed
+      %li(class="status_#{test_result_item.status}")=test_result_item.description
+
+%a(href="#{dashboard_github_branch_path(@test_result.github_branch.id)}") Back

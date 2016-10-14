@@ -1,5 +1,5 @@
 class GithubBranchesController < ApplicationController
-  before_action :set_github_branch, only: [:show, :edit, :update, :destroy]
+  before_action :set_github_branch, only: [:show, :edit, :update, :destroy, :dashboard]
 
   # GET /github_branches
   # GET /github_branches.json
@@ -10,6 +10,10 @@ class GithubBranchesController < ApplicationController
   # GET /github_branches/1
   # GET /github_branches/1.json
   def show
+  end
+
+  def dashboard
+    
   end
 
   # GET /github_branches/new

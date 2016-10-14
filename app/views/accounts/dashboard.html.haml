@@ -1,12 +1,13 @@
 %p#notice= notice
 
 %p
-  %b Name:
+  %b Account name:
   = @account.name
 
 %ul
   - @account.github_repositories.each do | repository |
-  %li repository.full_name
+    %li
+      %a(href="#{dashboard_github_repository_path(repository.id)}")=repository.full_name
 
 
 = link_to 'Edit', edit_account_path(@account)
