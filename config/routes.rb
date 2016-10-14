@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :accounts
   resources :test_result_items
   resources :test_results
