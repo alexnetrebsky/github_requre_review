@@ -9,10 +9,10 @@
   - @repository.github_branches.each do |branch|
     %a.list-group-item(href="#{dashboard_github_branch_path(branch.id)}")
       .row
-        .col-xs-9
+        .col-xs-6.col-sm-9
           %h4
             =branch.name
-        .col-xs-1
+        .col-xs-2.col-sm-1
           =render partial:'test_results/status', object: branch.result.status
-        .col-xs-2.center
+        .col-xs-4.col-sm-2.center
           =I18n.l(branch.result.created_at, format: :short)
