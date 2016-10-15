@@ -1,15 +1,7 @@
-%p#notice= notice
+.page-header
+  %h1 Repositories
 
-%p
-  %b Account name:
-  = @account.name
-
-%ul
+.list-group
   - @account.github_repositories.each do | repository |
-    %li
-      %a(href="#{dashboard_github_repository_path(repository.id)}")=repository.full_name
-
-
-= link_to 'Edit', edit_account_path(@account)
-\|
-= link_to 'Back', accounts_path
+    %a.list-group-item(href="#{dashboard_github_repository_path(repository.id)}")
+      %h4=repository.full_name.sub('/', ' / ')

@@ -1,11 +1,17 @@
-%h1 Branch #{@github_branch.name}
-%h3 Test results
-- if !@github_branch.test_results.any?
-  .empty
-    No results
-%ul
-  - @github_branch.test_results.each do |test_result|
-    %li(class="status_#{test_result.status}")
-      %a(href="#{dashboard_test_result_path(test_result.id)}")=test_result.created_at
+.page-header
+  %ul.breadcrumb
+    %li
+      %a(href="#{dashboard_account_path(@github_branch.github_repository.account.id)}") Repositories
+    %li
+      %a(href="#{dashboard_github_repository_path(@github_branch.github_repository.id)}")=@github_branch.github_repository.full_name
 
-%a(href="#{dashboard_github_repository_path(@github_branch.github_repository.id)}") Back
+  %h1 Results of #{@github_branch.name}
+
+.list-group
+  - @github_branch.test_results.each do |test_result|
+    %a.list-group-item(href="#{dashboard_test_result_path(test_result.id)}")
+      .row
+        .col-xs-1
+          =render partial:'test_results/status', object: test_result.status
+        .col-xs-11.center
+          at #{I18n.l(test_result.created_at, format: :short)}

@@ -1,0 +1,5 @@
+%h4
+  - if status.to_sym == :success
+    %span.label.status.label-success Passed
+  - else
+    %span.label.status.label-danger Failed

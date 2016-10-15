@@ -1,12 +1,18 @@
-%h1 Repository #{@repository.full_name}
+.page-header
+  %ul.breadcrumb
+    %li
+      %a(href="#{dashboard_account_path(@repository.account.id)}") Repositories
 
-%h3 Branches
-- if !@repository.github_branches.any?
-  .empty
-    No branches
-%ul
+  %h1 Branches of #{@repository.full_name}
+
+.list-group
   - @repository.github_branches.each do |branch|
-    %li(class="status_#{branch.status}")
-      %a(href="#{dashboard_github_branch_path(branch.id)}")=branch.name
-
-%a(href="#{dashboard_account_path(@repository.account.id)}") Back
+    %a.list-group-item(href="#{dashboard_github_branch_path(branch.id)}")
+      .row
+        .col-xs-9
+          %h4
+            =branch.name
+        .col-xs-1
+          =render partial:'test_results/status', object: branch.result.status
+        .col-xs-2.center
+          =I18n.l(branch.result.created_at, format: :short)

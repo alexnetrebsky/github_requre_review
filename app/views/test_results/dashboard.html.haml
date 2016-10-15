@@ -1,11 +1,20 @@
-%h1 Branch #{@test_result.github_branch.name} #{@test_result.created_at}
-%h3 Test results
-- if !@test_result.test_result_items.any?
-  .empty
-    No items
-%ul
-  - @test_result.test_result_items.each do |test_result_item|
-    - if test_result_item.status.to_sym == :failed
-      %li(class="status_#{test_result_item.status}")=test_result_item.description
+.page-header
+  %ul.breadcrumb
+    %li
+      %a(href="#{dashboard_account_path(@test_result.github_branch.github_repository.account.id)}") Repositories
+    %li
+      %a(href="#{dashboard_github_repository_path(@test_result.github_branch.github_repository.id)}")=@test_result.github_branch.github_repository.full_name
+    %li
+      %a(href="#{dashboard_github_repository_path(@test_result.github_branch.id)}")=@test_result.github_branch.name
 
-%a(href="#{dashboard_github_branch_path(@test_result.github_branch.id)}") Back
+  %h1 Details of #{I18n.l(@test_result.created_at, format: :short)}
+
+.list-group
+  - @test_result.test_result_items.each do |test_result_item|
+    %a.list-group-item
+      .row
+        .col-xs-1
+          =render partial:'test_results/status', object: test_result_item.status
+        .col-xs-11
+          %p.list-group-item-text.center
+            =test_result_item.description
