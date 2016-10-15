@@ -10,7 +10,10 @@
     .navbar.navbar-default.navbar-fixed-top
       .container
         .navbar-header
-          %a.navbar-brand(href="/") Github review
+          - if current_user.present?
+            %a.navbar-brand(href="#{dashboard_account_path(current_user.account.id)}") Github review
+          - else
+            %a.navbar-brand(href="/") Github review
         .navbar-collapse.collapse
           %ul.nav.navbar-nav.navbar-right
             %li
