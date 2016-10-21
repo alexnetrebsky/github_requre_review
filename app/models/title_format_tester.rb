@@ -1,0 +1,3 @@
+class TitleFormatTester < Tester
+
+end

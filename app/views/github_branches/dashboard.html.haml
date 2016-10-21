@@ -8,7 +8,7 @@
   %h1 Results of #{@github_branch.name}
 
 .list-group
-  - @github_branch.test_results.each do |test_result|
+  - @github_branch.test_results.sort_by(&:created_at).reverse.each do |test_result|
     %a.list-group-item(href="#{dashboard_test_result_path(test_result.id)}")
       .row
         .col-xs-1

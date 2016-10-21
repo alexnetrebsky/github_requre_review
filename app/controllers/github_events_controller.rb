@@ -1,6 +1,7 @@
 require 'github_event_handler/github_event_handler'
 
 class GithubEventsController < ApplicationController
+  skip_before_filter :authenticate_user!, only: [:create]
   skip_before_filter :verify_authenticity_token, only: [:create]
 
   def index

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161014185215) do
+ActiveRecord::Schema.define(version: 20161021185623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20161014185215) do
     t.string   "key"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.integer  "tester_id",      null: false
   end
 
   create_table "test_results", force: :cascade do |t|
@@ -56,6 +57,16 @@ ActiveRecord::Schema.define(version: 20161014185215) do
     t.integer  "github_pull_request"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+  end
+
+  create_table "testers", force: :cascade do |t|
+    t.string   "type"
+    t.integer  "github_repository_id", null: false
+    t.string   "description"
+    t.integer  "number_approves"
+    t.string   "title_regexp"
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -79,5 +90,7 @@ ActiveRecord::Schema.define(version: 20161014185215) do
   add_foreign_key "github_branches", "github_repositories"
   add_foreign_key "github_repositories", "accounts"
   add_foreign_key "test_result_items", "test_results"
+  add_foreign_key "test_result_items", "testers"
   add_foreign_key "test_results", "github_branches"
+  add_foreign_key "testers", "github_repositories"
 end

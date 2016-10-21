@@ -5,7 +5,7 @@
     %li
       %a(href="#{dashboard_github_repository_path(@test_result.github_branch.github_repository.id)}")=@test_result.github_branch.github_repository.full_name
     %li
-      %a(href="#{dashboard_github_repository_path(@test_result.github_branch.id)}")=@test_result.github_branch.name
+      %a(href="#{dashboard_github_branch_path(@test_result.github_branch.id)}")=@test_result.github_branch.name
 
   %h1 Details of #{I18n.l(@test_result.created_at, format: :short)}
 
@@ -17,4 +17,7 @@
           =render partial:'test_results/status', object: test_result_item.status
         .col-xs-11
           %p.list-group-item-text.center
-            =test_result_item.description
+            - if test_result_item.status.to_sym == :success
+              =test_result_item.tester.filled_description
+            - else
+              =test_result_item.description

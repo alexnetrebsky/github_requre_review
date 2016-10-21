@@ -10,7 +10,7 @@ class PullRequestStatusHandler < BaseHandler
   self.events = [PullRequestEvent, IssueCommentEvent]
 
   def initialize
-    @testers = [PullRequestTesters::ApproveExistenceTester.new, PullRequestTesters::TitleTester.new]
+
   end
 
 
@@ -22,11 +22,14 @@ class PullRequestStatusHandler < BaseHandler
     pull_request_number = pull_request['number']
     branch_name = pull_request['head']['ref']
 
+    testers = TesterRepository.find_by_repository_full_name(repository_full_name)
+    tester_factory = TesterFactoryService.new
+
     test_results = {}
-    @testers.each do |tester|
-      error_message = tester.test(pull_request, client)
-      test_key = tester.class.name
-      test_results[test_key] = error_message
+    testers.each do |tester|
+      tester_impl = tester_factory.create(tester)
+      error_message = tester_impl.test(pull_request, client)
+      test_results[tester.id] = error_message
     end
 
     error_result = test_results.find { |key, error_message| error_message.present? }
@@ -54,12 +57,12 @@ class PullRequestStatusHandler < BaseHandler
     test_result = TestResult.create({
                                         github_branch: github_branch,
                                         status: status,
-                                        gihub_pull_request: pull_request_number
+                                        github_pull_request: pull_request_number
                                     })
     test_result_items.each do |key, error_message|
       TestResultItem.create({
                                 test_result: test_result,
-                                key: key,
+                                tester_id: key,
                                 description: error_message,
                                 status: error_message.present? ? :failure : :success
                             })

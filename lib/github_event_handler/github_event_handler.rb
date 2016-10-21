@@ -10,7 +10,6 @@ class GithubEventHandler
     payload = JSON.parse(request.body.read)
     payload = HashHelperDecorator.new(payload, -> { raise StandardError.new('key undefined') })
     unless repository_registered?(payload)
-      puts "WOW"
       return false
     end
 

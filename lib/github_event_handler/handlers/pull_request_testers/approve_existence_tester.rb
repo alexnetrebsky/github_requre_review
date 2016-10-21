@@ -1,7 +1,11 @@
 module PullRequestTesters
   class ApproveExistenceTester
     THUMBS_UP_SIGN_CODE = 128077
-    NUMBER_REQUIRED_APPROVES = 2
+
+    def initialize(tester)
+      @number_required_approves = tester.number_approves
+      @description = tester.description
+    end
 
     def test(pull_request, client = nil)
       pull_request_number = pull_request.fetch(:number.to_s)
@@ -11,12 +15,8 @@ module PullRequestTesters
 
       number_approves = comments.select { |comment| comment[:body.to_s].unpack('U*').include?(THUMBS_UP_SIGN_CODE) }.count
 
-      if number_approves < NUMBER_REQUIRED_APPROVES
-        if (NUMBER_REQUIRED_APPROVES - number_approves > 1)
-          return "#{NUMBER_REQUIRED_APPROVES - number_approves} approves are required"
-        else
-          return "#{NUMBER_REQUIRED_APPROVES - number_approves} approve is required"
-        end
+      if number_approves < @number_required_approves
+        return @description % {number: @number_required_approves - number_approves}
       end
 
       nil
